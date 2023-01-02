@@ -17,7 +17,7 @@ class PersonTest extends TestCase
      */
     public function test_can_seed_database()
     {
-        $this->assertDatabaseCount('people',2);
+        $this->assertDatabaseCount('people',9);
     }
 
     public function test_database_table_has_queen_margret()
@@ -50,7 +50,7 @@ class PersonTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $mother = 'Queen Margret';
-        $person = 'Bill';
+        $person = 'Suzy';
         $gender = '';
 
         $child = new Person();
@@ -59,7 +59,7 @@ class PersonTest extends TestCase
         $this->assertEquals('PERSON_NOT_FOUND',$result);
         
         $this->assertDatabaseMissing('people',[
-            'name' => 'Bill',
+            'name' => 'Suzy',
         ]);
 
 
@@ -69,23 +69,23 @@ class PersonTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $mother = 'Queen Margret';
-        $person = 'Bill';
+        $person = 'Billy';
         $gender = 'male';
 
         $child = new Person();
         $result = $child->addPerson($mother,$person,$gender);
 
-        $partner = 'Bill';
-        $spouse = 'Flora';
+        $partner = 'Billy';
+        $spouse = 'Suzy';
         $gender = 'female';
 
-        $spouse = new Person();
-        $result = $spouse->addSpouse($partner,$spouse,$gender);
+        $addSpouse = new Person();
+        $result = $addSpouse->addSpouse($partner,$spouse,$gender);
 
         $this->assertEquals('SPOUSE_ADDED',$result);
 
-        $this->assertDatabaseMissing('people',[
-            'name' => 'Flora',
+        $this->assertDatabaseHas('people',[
+            'name' => 'Suzy',
         ]);
 
 

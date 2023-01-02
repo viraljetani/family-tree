@@ -59,18 +59,28 @@ class Person extends Model
     {
         return $this->belongsTo(Mother::class,'mother_id','id');
     }
-
+    
+    /**
+     * spouse
+     *
+     * @return void
+     */
     public function spouse()
     {
         return $this->belongsTo(Spouse::class,'spouse_id','id');
     }
 
-    public function addPerson($mother, $person, $gender)
+    public static function addPerson($mother, $person, $gender, Person $father = null)
     {
         $mother = Person::where('name',$mother)->first() ?? null;
         if($mother && ($gender == 'male' || $gender == 'female'))
         {
-            $child = Person::create(['name' => $person,'gender' => $gender, 'mother_id' => $mother->id]);
+            $child = Person::create([
+                'name' => $person,
+                'gender' => $gender,
+                'mother_id' => $mother->id, 
+                'father_id' => $father->id ?? null
+            ]);
             return 'CHILD_ADDED';
         }
         else
@@ -86,6 +96,8 @@ class Person extends Model
         if($partner && ($gender == 'male' || $gender == 'female'))
         {
             $spouse = Person::create(['name' => $person,'gender' => $gender, 'spouse_id' => $partner->id]);
+
+            $partner->update(['spouse_id' => $spouse->id]);
             return 'SPOUSE_ADDED';
         }
         else
