@@ -28,7 +28,7 @@ class FamilyTreeSeeder extends Seeder
             'father_id' => null, 
             'mother_id' => null]);
 
-        $bill 
+        
 
         
     }

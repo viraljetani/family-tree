@@ -64,4 +64,30 @@ class PersonTest extends TestCase
 
 
     }
+
+    public function test_can_add_spouse_and_partner()
+    {
+        $this->withoutExceptionHandling();
+        $mother = 'Queen Margret';
+        $person = 'Bill';
+        $gender = 'male';
+
+        $child = new Person();
+        $result = $child->addPerson($mother,$person,$gender);
+
+        $partner = 'Bill';
+        $spouse = 'Flora';
+        $gender = 'female';
+
+        $spouse = new Person();
+        $result = $spouse->addSpouse($partner,$spouse,$gender);
+
+        $this->assertEquals('SPOUSE_ADDED',$result);
+
+        $this->assertDatabaseMissing('people',[
+            'name' => 'Flora',
+        ]);
+
+
+    }
 }

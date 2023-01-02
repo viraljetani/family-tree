@@ -62,7 +62,7 @@ class Person extends Model
 
     public function spouse()
     {
-        return $this->belongsTo(Spouse::class,'spouse_id','id')
+        return $this->belongsTo(Spouse::class,'spouse_id','id');
     }
 
     public function addPerson($mother, $person, $gender)
@@ -73,9 +73,26 @@ class Person extends Model
             $child = Person::create(['name' => $person,'gender' => $gender, 'mother_id' => $mother->id]);
             return 'CHILD_ADDED';
         }
-        else{
+        else
+        {
             return 'PERSON_NOT_FOUND';
         }
+    }
+
+    public function addSpouse($partner, $person, $gender)
+    {
+        $partner = Person::where('name',$partner)->first() ?? null;
+
+        if($partner && ($gender == 'male' || $gender == 'female'))
+        {
+            $spouse = Person::create(['name' => $person,'gender' => $gender, 'spouse_id' => $partner->id]);
+            return 'SPOUSE_ADDED';
+        }
+        else
+        {
+            return 'PERSON_NOT_FOUND';
+        }
+
     }
 
     public function getSiblings(Person $person)
