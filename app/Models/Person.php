@@ -60,6 +60,11 @@ class Person extends Model
         return $this->belongsTo(Mother::class,'mother_id','id');
     }
 
+    public function spouse()
+    {
+        return $this->belongsTo(Spouse::class,'spouse_id','id')
+    }
+
     public function addPerson($mother, $person, $gender)
     {
         $mother = Person::where('name',$mother)->first() ?? null;
