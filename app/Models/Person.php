@@ -8,16 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Person extends Model
 {
     use HasFactory;
-
+    
+    /**
+     * fillable
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'gender',
-        'spouse'
+        'spouse_id',
+        'father_id',
+        'mother_id'
     ];
-    /* Person
-    id, name, gender, parent_id, spouse
-    */
-
+    
+    /**
+     * relations
+     *
+     * @var array
+     */
     private $relations = [
         'Son',
         'Daughter',
@@ -29,7 +38,50 @@ class Person extends Model
         'Maternal-Uncle',
         'Paternal-Uncle'
     ];
+    
+    /**
+     * father
+     *
+     * @return void
+     */
+    public function father()
+    {
+        return $this->belongsTo(Father::class,'father_id','id');
+    }
+    
+    /**
+     * mother
+     *
+     * @return void
+     */
+    public function mother()
+    {
+        return $this->belongsTo(Mother::class,'mother_id','id');
+    }
 
+    public function addChild(Mother $mother, Person $person)
+    {
+
+    }
+
+    public function getSiblings(Person $person)
+    {
+        // Find a parent of the person (mother)
+        // Check the total number of Children of that parent
+        // if more than 1 then has siblings 
+        // get all children of that parent except the Person 
+    }
+
+    
+
+    
+    /**
+     * getRelationship
+     *
+     * @param  Person $person
+     * @param  string $relationship
+     * @return string
+     */
     public function getRelationship(Person $person, $relationship)
     {
         $relation = "";
@@ -74,6 +126,8 @@ class Person extends Model
             default: //None
                 $relation = 'NONE';
                 break;
+
+            return $relation;
         
         }
     }
