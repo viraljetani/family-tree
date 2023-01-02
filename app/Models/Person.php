@@ -10,24 +10,25 @@ class Person extends Model
     use HasFactory;
     
     /**
-     * fillable
+     * table
+     *
+     * @var string
+     */
+    protected $table = 'people';
+    
+    /**
+     * guarded
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'gender',
-        'spouse_id',
-        'father_id',
-        'mother_id'
-    ];
+    protected $guarded = [];
     
     /**
      * relations
      *
      * @var array
      */
-    private $relations = [
+    protected $relations = [
         'Son',
         'Daughter',
         'Siblings',
@@ -59,9 +60,17 @@ class Person extends Model
         return $this->belongsTo(Mother::class,'mother_id','id');
     }
 
-    public function addChild(Mother $mother, Person $person)
+    public function addPerson($mother, $person, $gender)
     {
-
+        $mother = Person::where('name',$mother)->first() ?? null;
+        if($mother && ($gender == 'male' || $gender == 'female'))
+        {
+            $child = Person::create(['name' => $person,'gender' => $gender, 'mother_id' => $mother->id]);
+            return 'CHILD_ADDED';
+        }
+        else{
+            return 'PERSON_NOT_FOUND';
+        }
     }
 
     public function getSiblings(Person $person)
@@ -72,7 +81,7 @@ class Person extends Model
         // get all children of that parent except the Person 
     }
 
-    
+
 
     
     /**
