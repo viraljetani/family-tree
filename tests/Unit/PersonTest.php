@@ -114,4 +114,14 @@ class PersonTest extends TestCase
         $this->assertEquals(['Lily'],$relations);
 
     }
+
+    public function test_it_can_search_relation_for_siblings()
+    {
+        $person = new Person();
+
+        $relations = $person->getRelationship('Dominique','Siblings');
+        $this->assertEquals(['Victoire','Louis'],$relations);
+
+
+    }
 }

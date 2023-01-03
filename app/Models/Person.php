@@ -143,8 +143,6 @@ class Person extends Model
      */
     protected function getRelatedNames(Person $person, $relationship)
     {
-        $relatedNames = [];
-
         switch ($relationship) {
             case $this->relations[0]: //son
                 
@@ -175,7 +173,16 @@ class Person extends Model
                 break;
             
             case $this->relations[2]: //Siblings
-                # code...
+                
+                $query = Person::query();
+                //Find Father/Mother of that person 
+                //Find Son/Daughter
+                return $query->when(isset($person->mother_id), function ($q) use ($person,$relationship) {
+                    return $q->where('mother_id',$person->mother_id)->where('id','!=',$person->id);
+                })
+                ->pluck('name')
+                ->toArray();
+
                 break;
             
             case $this->relations[3]: //Sister-In-Law
