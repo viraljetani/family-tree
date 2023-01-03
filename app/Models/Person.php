@@ -177,7 +177,7 @@ class Person extends Model
                 $query = Person::query();
                 //Find Father/Mother of that person 
                 //Find Son/Daughter
-                return $query->when(isset($person->mother_id), function ($q) use ($person,$relationship) {
+                return $query->when(isset($person->mother_id), function ($q) use ($person) {
                     return $q->where('mother_id',$person->mother_id)->where('id','!=',$person->id);
                 })
                 ->pluck('name')
@@ -186,7 +186,10 @@ class Person extends Model
                 break;
             
             case $this->relations[3]: //Sister-In-Law
-                # code...
+                
+                //Spouse's sisters 
+
+                //Siblings spouse
                 break;
             
             case $this->relations[4]: //Brother-In-Law
@@ -194,19 +197,52 @@ class Person extends Model
                 break;
             
             case $this->relations[5]: //Maternal-Aunt
-                # code...
+                //Mother's sisters
+                if(isset($person->mother_id))
+                {
+                    $personMother = Person::where('id',$person->mother_id)->first();
+                    $herMother = Person::where('id',$personMother->mother_id)->where('gender','female')->first();
+
+                    return Person::where('mother_id',$herMother->id)->where('id','!=',$personMother->id)->where('gender','female')->pluck('name')->toArray();
+
+                }
+
                 break;
             
             case $this->relations[6]: //Paternal-Aunt
-                # code...
+                //Father's sisters
+                if(isset($person->father_id))
+                {
+                    $personFather = Person::where('id',$person->father_id)->first();
+                    $herMother = Person::where('id',$personFather->mother_id)->where('gender','female')->first();
+
+                    return Person::where('mother_id',$herMother->id)->where('id','!=',$personFather->id)->where('gender','female')->pluck('name')->toArray();
+
+                }
                 break;
             
             case $this->relations[7]: //Maternal-Uncle
-                # code...
+
+                if(isset($person->mother_id))
+                {
+                    $personMother = Person::where('id',$person->mother_id)->first();
+                    $herMother = Person::where('id',$personMother->mother_id)->where('gender','female')->first();
+
+                    return Person::where('mother_id',$herMother->id)->where('id','!=',$personMother->id)->where('gender','male')->pluck('name')->toArray();
+
+                }
                 break;
             
             case $this->relations[8]: //Paternal-Uncle
-                # code...
+
+                if(isset($person->father_id))
+                {
+                    $personFather = Person::where('id',$person->father_id)->first();
+                    $herMother = Person::where('id',$personFather->mother_id)->where('gender','female')->first();
+
+                    return Person::where('mother_id',$herMother->id)->where('id','!=',$personFather->id)->where('gender','male')->pluck('name')->toArray();
+
+                }
                 break;
             
             default: //None

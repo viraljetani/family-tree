@@ -115,13 +115,64 @@ class PersonTest extends TestCase
 
     }
 
-    public function test_it_can_search_relation_for_siblings()
+    public function test_it_can_search_relation_for_maternal_aunt()
     {
+
+        $mother = 'Helen';
+        $person = 'Belrose';
+        $gender = 'female';
+
+        $child = new Person();
+        $result = $child->addPerson($mother,$person,$gender);
+
         $person = new Person();
 
-        $relations = $person->getRelationship('Dominique','Siblings');
-        $this->assertEquals(['Victoire','Louis'],$relations);
+        $relations = $person->getRelationship('Aster','Maternal-Aunt');
+        $this->assertEquals(['Belrose'],$relations);
 
 
     }
+
+    public function test_it_can_search_relation_for_paternal_aunt()
+    {
+
+        $person = new Person();
+
+        $relations = $person->getRelationship('Louis','Paternal-Aunt');
+        $this->assertEquals(['Ginerva'],$relations);
+
+
+    }
+
+    public function test_it_can_search_relation_for_maternal_uncle()
+    {
+
+        $person = new Person();
+
+        $relations = $person->getRelationship('Remus','Maternal-Uncle');
+        $this->assertEquals(['Louis'],$relations);
+
+
+    }
+
+    public function test_it_can_search_relation_for_paternal_uncle()
+    {
+
+        $person = new Person();
+
+        $relations = $person->getRelationship('Louis','Paternal-Uncle');
+        $this->assertEquals(['Charlie','Percy','Ronald'],$relations);
+
+
+    }
+
+    /* public function test_it_can_search_relation_for_sister_in_law()
+    {
+        $person = new Person();
+
+        $relations = $person->getRelationship('Ted','Sister-In-Law');
+        $this->assertEquals(['Dominique'],$relations);
+
+
+    } */
 }
