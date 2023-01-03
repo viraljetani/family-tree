@@ -6,7 +6,7 @@ I have used Laravel Sail (Docker) while working on this code. Coding has been do
 Setup (for Mac or Windows):
 
 - Clone the repo in your local.
-- Plece the .env file from the email into the project's root directory.
+- Paste the .env file from the email into the project's root directory.
 - On the Terminal inside the project directory run the following: 
 > sail up -d  [Make sure docker is installed and running]
 
