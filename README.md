@@ -27,7 +27,7 @@ Unit tests have been implement to test the critical functions of the Person clas
 
 Database for Tests is called 'testing' where all the test operations are executed and its separate from the apps main database which is named as family_tree. (All automatically setup when running the *sail up -d* command)
 
-# Coverage
+# Test Coverage
 > sail test --coverage  (xDebug is already enabled in .env for this feature to work)
 
 Current code coverage for the test suit is *40.5%* (ideally ~75-80%)
