@@ -43,7 +43,6 @@ class PersonTest extends TestCase
             'name' => 'Bill',
         ]);
 
-
     }
 
     public function test_cannot_add_a_person_if_gender_incorrect()
@@ -61,7 +60,6 @@ class PersonTest extends TestCase
         $this->assertDatabaseMissing('people',[
             'name' => 'Suzy',
         ]);
-
 
     }
 
@@ -87,7 +85,6 @@ class PersonTest extends TestCase
         $this->assertDatabaseHas('people',[
             'name' => 'Suzy',
         ]);
-
 
     }
 
@@ -130,7 +127,6 @@ class PersonTest extends TestCase
         $relations = $person->getRelationship('Aster','Maternal-Aunt');
         $this->assertEquals(['Belrose'],$relations);
 
-
     }
 
     public function test_it_can_search_relation_for_paternal_aunt()
@@ -140,7 +136,6 @@ class PersonTest extends TestCase
 
         $relations = $person->getRelationship('Louis','Paternal-Aunt');
         $this->assertEquals(['Ginerva'],$relations);
-
 
     }
 
@@ -152,7 +147,6 @@ class PersonTest extends TestCase
         $relations = $person->getRelationship('Remus','Maternal-Uncle');
         $this->assertEquals(['Louis'],$relations);
 
-
     }
 
     public function test_it_can_search_relation_for_paternal_uncle()
@@ -163,16 +157,34 @@ class PersonTest extends TestCase
         $relations = $person->getRelationship('Louis','Paternal-Uncle');
         $this->assertEquals(['Charlie','Percy','Ronald'],$relations);
 
-
     }
 
-    /* public function test_it_can_search_relation_for_sister_in_law()
+    public function test_it_can_search_relation_for_sister_in_law()
     {
         $person = new Person();
 
-        $relations = $person->getRelationship('Ted','Sister-In-Law');
-        $this->assertEquals(['Dominique'],$relations);
+        $relations = $person->getRelationship('Lily','Sister-In-Law');
+        $this->assertEquals(['Darcy','Alice'],$relations);
+
+        $relations = $person->getRelationship('Charlie','Sister-In-Law');
+        $this->assertEquals(['Flora','Audrey','Helen'],$relations);
+
+        $relations = $person->getRelationship('Helen','Sister-In-Law');
+        $this->assertEquals(['Ginerva'],$relations);
 
 
-    } */
+
+    }
+
+    public function test_it_can_search_relation_for_brother_in_law()
+    {
+        $person = new Person();
+
+        $relations = $person->getRelationship('Charlie','Brother-In-Law');
+        $this->assertEquals(['Harry'],$relations);
+
+        $relations = $person->getRelationship('Malfoy','Brother-In-Law');
+        $this->assertEquals(['Hugo'],$relations);
+
+    }
 }

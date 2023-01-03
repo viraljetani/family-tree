@@ -145,9 +145,9 @@ class Person extends Model
     {
         switch ($relationship) {
             case $this->relations[0]: //son
-                
+                $son = [];
                 $query = Person::query();
-                return $query->when($person->gender == 'male', function ($q) use ($person,$relationship) {
+                $son = $query->when($person->gender == 'male', function ($q) use ($person,$relationship) {
                     return $q->where('father_id',$person->id)->where('gender','male');
                 })
                 ->when($person->gender == 'female', function ($q) use ($person,$relationship) {
@@ -156,6 +156,7 @@ class Person extends Model
                 ->pluck('name')
                 ->toArray();
 
+                return empty($son) ? 'PERSON_NOT_FOUND' : $son;
                 break;
             
             case $this->relations[1]: //Daughter
@@ -186,14 +187,59 @@ class Person extends Model
                 break;
             
             case $this->relations[3]: //Sister-In-Law
-                
-                //Spouse's sisters 
+                $sisterInLaws = [];
+                //Spouse's sisters
+                if(isset($person->spouse_id))
+                {
+                    $spouse = Person::where('id',$person->spouse_id)->first();
+                    $spouseMother = Person::where('id',$spouse->mother_id)->first();
+                    $sisterInLaws = Person::where('mother_id',$spouseMother->id)
+                                    ->where('gender','female')
+                                    ->where('id',"!=",$person->spouse_id)
+                                    ->pluck('name')->toArray();
+                }
 
-                //Siblings spouse
+                $siblingWives = [];
+                //Wives of siblings
+                if($person->mother_id)
+                {
+                    $siblingWives = Person::where('mother_id',$person->mother_id)->where('id',"!=",$person->id)->where('gender','male')->pluck('spouse_id')->toArray();
+                    if(!empty($siblingWives)){
+                        $siblingWives = Person::whereIn('id',$siblingWives)->pluck('name')->toArray();
+                    }
+                }
+                $final = array_merge($sisterInLaws,$siblingWives);
+
+                return empty($final) ? 'PERSON_NOT_FOUND' : $final;
+
                 break;
             
             case $this->relations[4]: //Brother-In-Law
-                # code...
+                $brotherInLaws = [];
+                //Spouse's brothers
+                if(isset($person->spouse_id))
+                {
+                    $spouse = Person::where('id',$person->spouse_id)->first();
+                    $spouseMother = Person::where('id',$spouse->mother_id)->first();
+                    
+                    $brotherInLaws = Person::where('mother_id',$spouseMother->id)
+                                    ->where('gender','male')
+                                    ->where('id',"!=",$person->spouse_id)
+                                    ->pluck('name')->toArray();
+                    return $brotherInLaws;
+                }
+                $siblingHusbands = [];
+                //Husbands of siblings
+                if($person->mother_id){
+                    $siblingHusbands = Person::where('mother_id',$person->mother_id)->where('id',"!=",$person->id)->where('gender','female')->pluck('spouse_id')->toArray();
+                    if(!empty($siblingHusbands)){
+                        $siblingHusbands = Person::whereIn('id',$siblingHusbands)->pluck('name')->toArray();
+                    }
+                }
+                $final = array_merge($brotherInLaws,$siblingHusbands);
+                
+                return empty($final) ? 'PERSON_NOT_FOUND' : $final;
+
                 break;
             
             case $this->relations[5]: //Maternal-Aunt
