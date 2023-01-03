@@ -17,7 +17,7 @@ class PersonTest extends TestCase
      */
     public function test_can_seed_database()
     {
-        $this->assertDatabaseCount('people',9);
+        $this->assertDatabaseCount('people',31);
     }
 
     public function test_database_table_has_queen_margret()

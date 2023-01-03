@@ -80,27 +80,143 @@ class FamilyTreeSeeder extends Seeder
             Person::addPerson($flora->name,'Louis','male',$bill);
 
         //Charlie
+        Person::addPerson($margret->name,'Charlie','male',$arthur);
 
         //Percy & Audrey
+        $percy = Person::factory()->create([
+            'name' => 'Percy', 
+            'gender' => 'male',
+            'father_id' => $arthur->id, 
+            'mother_id' => $margret->id
+        ]);
+
+        $audrey = Person::factory()->create([
+            'name' => 'Audrey', 
+            'gender' => 'female',
+            'father_id' => null, 
+            'mother_id' => null,
+            'spouse_id' => $percy->id
+        ]);
+        $percy->update(['spouse_id' => $audrey->id]);
             
             //Molly
+            Person::addPerson($audrey->name,'Molly','female',$percy);
             //Lucy
+            Person::addPerson($audrey->name,'Lucy','female',$percy);
 
         //Ronald & Helen
+        $ronald = Person::factory()->create([
+            'name' => 'Ronald', 
+            'gender' => 'male',
+            'father_id' => $arthur->id, 
+            'mother_id' => $margret->id
+        ]);
+
+        $helen = Person::factory()->create([
+            'name' => 'Helen', 
+            'gender' => 'female',
+            'father_id' => null, 
+            'mother_id' => null,
+            'spouse_id' => $ronald->id
+        ]);
+        $ronald->update(['spouse_id' => $helen->id]);
 
             //Rose & Malfoy
-                //Draco & Aster
+            $rose = Person::factory()->create([
+                'name' => 'Rose', 
+                'gender' => 'female',
+                'father_id' => $ronald->id, 
+                'mother_id' => $helen->id,
+                'spouse_id' => null,
+            ]);
+
+            $malfoy = Person::factory()->create([
+                'name' => 'Malfoy', 
+                'gender' => 'male',
+                'father_id' => null, 
+                'mother_id' => null,
+                'spouse_id' => $rose->id
+            ]);
+            $rose->update(['spouse_id' => $malfoy->id]);
+                
+                //Draco
+                Person::addPerson($rose->name,'Draco','male',$malfoy);
+                //Aster
+                Person::addPerson($rose->name,'Aster','female',$malfoy);
             //Hugo
+            Person::addPerson($helen->name,'Hugo','male',$ronald);
 
         //Ginerva & Harry
+        $ginerva = Person::factory()->create([
+            'name' => 'Ginerva', 
+            'gender' => 'female',
+            'father_id' => $arthur->id, 
+            'mother_id' => $margret->id
+        ]);
+
+        $harry = Person::factory()->create([
+            'name' => 'Harry', 
+            'gender' => 'male',
+            'father_id' => null, 
+            'mother_id' => null,
+            'spouse_id' => $ginerva->id
+        ]);
+        $ginerva->update(['spouse_id' => $harry->id]);
 
             //James & Darcy
+            $james = Person::factory()->create([
+                'name' => 'James', 
+                'gender' => 'male',
+                'father_id' => $harry->id, 
+                'mother_id' => $ginerva->id,
+                'spouse_id' => null
+            ]);
+
+            $darcy = Person::factory()->create([
+                'name' => 'Darcy', 
+                'gender' => 'female',
+                'father_id' => null, 
+                'mother_id' => null,
+                'spouse_id' => $james->id
+            ]);
+            $james->update(['spouse_id' => $darcy->id]);
+
                 //William
+                Person::addPerson($darcy->name,'William','male',$james);
 
         //Albus & Alice
-            //Ron & Ginny
+        
+        $albus = Person::factory()->create([
+            'name' => 'Albus', 
+            'gender' => 'male',
+            'father_id' => $harry->id, 
+            'mother_id' => $ginerva->id,
+            'spouse_id' => null
+        ]);
+
+        $alice = Person::factory()->create([
+            'name' => 'Alice', 
+            'gender' => 'female',
+            'father_id' => null, 
+            'mother_id' => null,
+            'spouse_id' => $albus->id
+        ]);
+        $albus->update(['spouse_id' => $alice->id]);
+            
+            //Ron
+            Person::addPerson($alice->name,'Ron','male',$albus);
+            
+            //Ginny
+            Person::addPerson($alice->name,'Ginny','female',$albus);
         
         //Lily
+        $lily = Person::factory()->create([
+            'name' => 'Lily', 
+            'gender' => 'female',
+            'father_id' => $harry->id, 
+            'mother_id' => $ginerva->id,
+            'spouse_id' => null
+        ]);
 
         
     }
