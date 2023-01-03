@@ -210,7 +210,7 @@ class FamilyTreeSeeder extends Seeder
             Person::addPerson($alice->name,'Ginny','female',$albus);
         
         //Lily
-        Person::addPerson($ginerva->name,'Lilly','female',$harry);
+        Person::addPerson($ginerva->name,'Lily','female',$harry);
         
     }
 }

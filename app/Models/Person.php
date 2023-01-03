@@ -115,6 +115,22 @@ class Person extends Model
         // get all children of that parent except the Person 
     }
 
+    public function getRelationship($personName, $relation)
+    {
+        $person = Person::where('name',$personName)->first() ?? null;
+
+        if($person && in_array($relation,$this->relations))
+        {
+            $result = $this->getRelatedNames($person, $relation);
+            return $result;
+        }
+        else
+        {
+            return 'PERSON_NOT_FOUND';
+        }
+
+    }
+
 
 
     
@@ -125,17 +141,37 @@ class Person extends Model
      * @param  string $relationship
      * @return string
      */
-    public function getRelationship(Person $person, $relationship)
+    protected function getRelatedNames(Person $person, $relationship)
     {
-        $relation = "";
+        $relatedNames = [];
 
         switch ($relationship) {
             case $this->relations[0]: //son
-                # code...
+                
+                $query = Person::query();
+                return $query->when($person->gender == 'male', function ($q) use ($person,$relationship) {
+                    return $q->where('father_id',$person->id)->where('gender','male');
+                })
+                ->when($person->gender == 'female', function ($q) use ($person,$relationship) {
+                    return $q->where('mother_id',$person->id)->where('gender','male');
+                })
+                ->pluck('name')
+                ->toArray();
+
                 break;
             
             case $this->relations[1]: //Daughter
-                # code...
+
+                $query = Person::query();
+                return $query->when($person->gender == 'male', function ($q) use ($person,$relationship) {
+                    return $q->where('father_id',$person->id)->where('gender','female');
+                })
+                ->when($person->gender == 'female', function ($q) use ($person,$relationship) {
+                    return $q->where('mother_id',$person->id)->where('gender','female');
+                })
+                ->pluck('name')
+                ->toArray();
+
                 break;
             
             case $this->relations[2]: //Siblings

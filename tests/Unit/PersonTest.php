@@ -90,4 +90,28 @@ class PersonTest extends TestCase
 
 
     }
+
+    public function test_it_can_search_relation_for_son()
+    {
+        $person = new Person();
+
+        $relations = $person->getRelationship('Queen Margret','Son');
+        $this->assertEquals(['Bill','Charlie','Percy','Ronald'],$relations);
+
+        $relations = $person->getRelationship('Harry','Son');
+        $this->assertEquals(['James','Albus'],$relations);
+
+    }
+
+    public function test_it_can_search_relation_for_daughter()
+    {
+        $person = new Person();
+
+        $relations = $person->getRelationship('Queen Margret','Daughter');
+        $this->assertEquals(['Ginerva'],$relations);
+
+        $relations = $person->getRelationship('Harry','Daughter');
+        $this->assertEquals(['Lily'],$relations);
+
+    }
 }
