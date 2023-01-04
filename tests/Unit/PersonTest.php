@@ -93,10 +93,10 @@ class PersonTest extends TestCase
         $person = new Person();
 
         $relations = $person->getRelationship('Queen Margret','Son');
-        $this->assertEquals(['Bill','Charlie','Percy','Ronald'],$relations);
+        $this->assertEquals("Bill Charlie Percy Ronald",$relations);
 
         $relations = $person->getRelationship('Harry','Son');
-        $this->assertEquals(['James','Albus'],$relations);
+        $this->assertEquals("James Albus",$relations);
 
     }
 
@@ -105,16 +105,27 @@ class PersonTest extends TestCase
         $person = new Person();
 
         $relations = $person->getRelationship('Queen Margret','Daughter');
-        $this->assertEquals(['Ginerva'],$relations);
+        $this->assertEquals("Ginerva",$relations);
 
         $relations = $person->getRelationship('Harry','Daughter');
-        $this->assertEquals(['Lily'],$relations);
+        $this->assertEquals("Lily",$relations);
+
+    }
+
+    public function test_it_can_search_relation_for_siblings()
+    {
+        $person = new Person();
+
+        $relations = $person->getRelationship('Charlie','Siblings');
+        $this->assertEquals("Bill Percy Ronald Ginerva",$relations);
+
+        $relations = $person->getRelationship('Victoire','Siblings');
+        $this->assertEquals("Dominique Louis",$relations);
 
     }
 
     public function test_it_can_search_relation_for_maternal_aunt()
     {
-
         $mother = 'Helen';
         $person = 'Belrose';
         $gender = 'female';
@@ -125,7 +136,7 @@ class PersonTest extends TestCase
         $person = new Person();
 
         $relations = $person->getRelationship('Aster','Maternal-Aunt');
-        $this->assertEquals(['Belrose'],$relations);
+        $this->assertEquals('Belrose',$relations);
 
     }
 
@@ -135,7 +146,7 @@ class PersonTest extends TestCase
         $person = new Person();
 
         $relations = $person->getRelationship('Louis','Paternal-Aunt');
-        $this->assertEquals(['Ginerva'],$relations);
+        $this->assertEquals('Ginerva',$relations);
 
     }
 
@@ -145,7 +156,7 @@ class PersonTest extends TestCase
         $person = new Person();
 
         $relations = $person->getRelationship('Remus','Maternal-Uncle');
-        $this->assertEquals(['Louis'],$relations);
+        $this->assertEquals('Louis',$relations);
 
     }
 
@@ -155,7 +166,7 @@ class PersonTest extends TestCase
         $person = new Person();
 
         $relations = $person->getRelationship('Louis','Paternal-Uncle');
-        $this->assertEquals(['Charlie','Percy','Ronald'],$relations);
+        $this->assertEquals('Charlie Percy Ronald',$relations);
 
     }
 
