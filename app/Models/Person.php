@@ -81,8 +81,15 @@ class Person extends Model
      */
     public static function addPerson($mother, $person, $gender, Person $father = null)
     {
-        $mother = Person::where('name',$mother)->first() ?? null;
-        if($mother && ($gender == 'male' || $gender == 'female'))
+        if(!empty(Person::where('name',$person)->pluck('name')->toArray()))
+        {
+            return "PERSON_ALREADY_EXISTS";
+        }
+        $mother = Person::where('name',$mother)->where('gender','Female')->first() ?? null;
+        if(!$mother){
+            return "CHILD_ADDITION_FAILED";
+        }
+        if($mother && ($gender == 'Male' || $gender == 'Female'))
         {
             $child = Person::create([
                 'name' => $person,
@@ -110,7 +117,7 @@ class Person extends Model
     {
         $partner = Person::where('name',$partner)->first() ?? null;
 
-        if($partner && ($gender == 'male' || $gender == 'female'))
+        if($partner && ($gender == 'Male' || $gender == 'Female'))
         {
             $spouse = Person::create(['name' => $person,'gender' => $gender, 'spouse_id' => $partner->id]);
 
@@ -174,31 +181,31 @@ class Person extends Model
             case $this->relations[0]: //son
                 $son = [];
                 $query = Person::query();
-                $son = $query->when($person->gender == 'male', function ($q) use ($person,$relationship) {
-                    return $q->where('father_id',$person->id)->where('gender','male');
+                $son = $query->when($person->gender == 'Male', function ($q) use ($person) {
+                    return $q->where('father_id',$person->id)->where('gender','Male');
                 })
-                ->when($person->gender == 'female', function ($q) use ($person,$relationship) {
-                    return $q->where('mother_id',$person->id)->where('gender','male');
+                ->when($person->gender == 'Female', function ($q) use ($person) {
+                    return $q->where('mother_id',$person->id)->where('gender','Male');
                 })
                 ->pluck('name')
                 ->toArray();
 
-                return empty($son) ? 'PERSON_NOT_FOUND' : implode(" ",$son);
+                return empty($son) ? 'NONE' : implode(" ",$son);
                 break;
             
             case $this->relations[1]: //Daughter
                 $daughter = [];
                 $query = Person::query();
-                $daughter = $query->when($person->gender == 'male', function ($q) use ($person,$relationship) {
-                    return $q->where('father_id',$person->id)->where('gender','female');
+                $daughter = $query->when($person->gender == 'Male', function ($q) use ($person,$relationship) {
+                    return $q->where('father_id',$person->id)->where('gender','Female');
                 })
-                ->when($person->gender == 'female', function ($q) use ($person,$relationship) {
-                    return $q->where('mother_id',$person->id)->where('gender','female');
+                ->when($person->gender == 'Female', function ($q) use ($person,$relationship) {
+                    return $q->where('mother_id',$person->id)->where('gender','Female');
                 })
                 ->pluck('name')
                 ->toArray();
 
-                return empty($daughter) ? 'PERSON_NOT_FOUND' : implode(" ",$daughter);
+                return empty($daughter) ? 'NONE' : implode(" ",$daughter);
 
                 break;
             
@@ -213,7 +220,7 @@ class Person extends Model
                 ->pluck('name')
                 ->toArray();
 
-                return empty($siblings) ? 'PERSON_NOT_FOUND' : implode(" ",$siblings);
+                return empty($siblings) ? 'NONE' : implode(" ",$siblings);
 
                 break;
             
@@ -225,23 +232,25 @@ class Person extends Model
                     $spouse = Person::where('id',$person->spouse_id)->first();
                     $spouseMother = Person::where('id',$spouse->mother_id)->first();
                     $sisterInLaws = Person::where('mother_id',$spouseMother->id)
-                                    ->where('gender','female')
+                                    ->where('gender','Female')
                                     ->where('id',"!=",$person->spouse_id)
                                     ->pluck('name')->toArray();
+                    
                 }
 
                 $siblingWives = [];
                 //Wives of siblings
                 if($person->mother_id)
                 {
-                    $siblingWives = Person::where('mother_id',$person->mother_id)->where('id',"!=",$person->id)->where('gender','male')->pluck('spouse_id')->toArray();
+                    $siblingWives = Person::where('mother_id',$person->mother_id)->where('id',"!=",$person->id)->where('gender','Male')->pluck('spouse_id')->toArray();
+                    
                     if(!empty($siblingWives)){
                         $siblingWives = Person::whereIn('id',$siblingWives)->pluck('name')->toArray();
                     }
                 }
                 $final = array_merge($sisterInLaws,$siblingWives);
 
-                return empty($final) ? 'PERSON_NOT_FOUND' : $final;
+                return empty($final) ? 'NONE' : implode(" ", $final);
 
                 break;
             
@@ -254,7 +263,7 @@ class Person extends Model
                     $spouseMother = Person::where('id',$spouse->mother_id)->first();
                     
                     $brotherInLaws = Person::where('mother_id',$spouseMother->id)
-                                    ->where('gender','male')
+                                    ->where('gender','Male')
                                     ->where('id',"!=",$person->spouse_id)
                                     ->pluck('name')->toArray();
                     return $brotherInLaws;
@@ -262,14 +271,14 @@ class Person extends Model
                 $siblingHusbands = [];
                 //Husbands of siblings
                 if($person->mother_id){
-                    $siblingHusbands = Person::where('mother_id',$person->mother_id)->where('id',"!=",$person->id)->where('gender','female')->pluck('spouse_id')->toArray();
+                    $siblingHusbands = Person::where('mother_id',$person->mother_id)->where('id',"!=",$person->id)->where('gender','Female')->pluck('spouse_id')->toArray();
                     if(!empty($siblingHusbands)){
                         $siblingHusbands = Person::whereIn('id',$siblingHusbands)->pluck('name')->toArray();
                     }
                 }
                 $final = array_merge($brotherInLaws,$siblingHusbands);
                 
-                return empty($final) ? 'PERSON_NOT_FOUND' : $final;
+                return empty($final) ? 'NONE' : $final;
 
                 break;
             
@@ -279,12 +288,12 @@ class Person extends Model
                 if(isset($person->mother_id))
                 {
                     $personMother = Person::where('id',$person->mother_id)->first();
-                    $herMother = Person::where('id',$personMother->mother_id)->where('gender','female')->first();
+                    $herMother = Person::where('id',$personMother->mother_id)->where('gender','Female')->first();
 
-                    $maternalAunt = Person::where('mother_id',$herMother->id)->where('id','!=',$personMother->id)->where('gender','female')->pluck('name')->toArray();
+                    $maternalAunt = Person::where('mother_id',$herMother->id)->where('id','!=',$personMother->id)->where('gender','Female')->pluck('name')->toArray();
 
                 }
-                return empty($maternalAunt) ? 'PERSON_NOT_FOUND' : implode(" ",$maternalAunt);
+                return empty($maternalAunt) ? 'NONE' : implode(" ",$maternalAunt);
 
                 break;
             
@@ -294,13 +303,13 @@ class Person extends Model
                 if(isset($person->father_id))
                 {
                     $personFather = Person::where('id',$person->father_id)->first();
-                    $herMother = Person::where('id',$personFather->mother_id)->where('gender','female')->first();
+                    $herMother = Person::where('id',$personFather->mother_id)->where('gender','Female')->first();
 
-                    $paternalAunt = Person::where('mother_id',$herMother->id)->where('id','!=',$personFather->id)->where('gender','female')->pluck('name')->toArray();
+                    $paternalAunt = Person::where('mother_id',$herMother->id)->where('id','!=',$personFather->id)->where('gender','Female')->pluck('name')->toArray();
 
                 }
 
-                return empty($paternalAunt) ? 'PERSON_NOT_FOUND' : implode(" ",$paternalAunt);
+                return empty($paternalAunt) ? 'NONE' : implode(" ",$paternalAunt);
 
                 break;
             
@@ -309,13 +318,13 @@ class Person extends Model
                 if(isset($person->mother_id))
                 {
                     $personMother = Person::where('id',$person->mother_id)->first();
-                    $herMother = Person::where('id',$personMother->mother_id)->where('gender','female')->first();
+                    $herMother = Person::where('id',$personMother->mother_id)->where('gender','Female')->first();
 
-                    $maternalUncle = Person::where('mother_id',$herMother->id)->where('id','!=',$personMother->id)->where('gender','male')->pluck('name')->toArray();
+                    $maternalUncle = Person::where('mother_id',$herMother->id)->where('id','!=',$personMother->id)->where('gender','Male')->pluck('name')->toArray();
 
                 }
 
-                return empty($maternalUncle) ? 'PERSON_NOT_FOUND' : implode(" ",$maternalUncle);
+                return empty($maternalUncle) ? 'NONE' : implode(" ",$maternalUncle);
 
                 break;
             
@@ -324,20 +333,20 @@ class Person extends Model
                 if(isset($person->father_id))
                 {
                     $personFather = Person::where('id',$person->father_id)->first();
-                    $herMother = Person::where('id',$personFather->mother_id)->where('gender','female')->first();
+                    $herMother = Person::where('id',$personFather->mother_id)->where('gender','Female')->first();
 
-                    $paternalUncle = Person::where('mother_id',$herMother->id)->where('id','!=',$personFather->id)->where('gender','male')->pluck('name')->toArray();
+                    $paternalUncle = Person::where('mother_id',$herMother->id)->where('id','!=',$personFather->id)->where('gender','Male')->pluck('name')->toArray();
 
                 }
 
-                return empty($paternalUncle) ? 'PERSON_NOT_FOUND' : implode(" ",$paternalUncle);
+                return empty($paternalUncle) ? 'NONE' : implode(" ",$paternalUncle);
                 break;
             
             default: //None
-                $relation = 'NONE';
+                return 'NONE';
                 break;
 
-            return $relation;
+            //return $relation;
         
         }
     }

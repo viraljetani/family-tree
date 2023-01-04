@@ -36,8 +36,8 @@ class PersonTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $mother = 'Queen Margret';
-        $person = 'Bill';
-        $gender = 'male';
+        $person = 'Billy';
+        $gender = 'Male';
 
         $child = new Person();
         $result = $child->addPerson($mother,$person,$gender);
@@ -83,14 +83,14 @@ class PersonTest extends TestCase
         $this->withoutExceptionHandling();
         $mother = 'Queen Margret';
         $person = 'Billy';
-        $gender = 'male';
+        $gender = 'Male';
 
         $child = new Person();
         $result = $child->addPerson($mother,$person,$gender);
 
         $partner = 'Billy';
         $spouse = 'Suzy';
-        $gender = 'female';
+        $gender = 'Female';
 
         $addSpouse = new Person();
         $result = $addSpouse->addSpouse($partner,$spouse,$gender);
@@ -163,7 +163,7 @@ class PersonTest extends TestCase
     {
         $mother = 'Helen';
         $person = 'Belrose';
-        $gender = 'female';
+        $gender = 'Female';
 
         $child = new Person();
         $result = $child->addPerson($mother,$person,$gender);
@@ -230,13 +230,13 @@ class PersonTest extends TestCase
         $person = new Person();
 
         $relations = $person->getRelationship('Lily','Sister-In-Law');
-        $this->assertEquals(['Darcy','Alice'],$relations);
+        $this->assertEquals('Darcy Alice',$relations);
 
         $relations = $person->getRelationship('Charlie','Sister-In-Law');
-        $this->assertEquals(['Flora','Audrey','Helen'],$relations);
+        $this->assertEquals('Flora Audrey Helen',$relations);
 
         $relations = $person->getRelationship('Helen','Sister-In-Law');
-        $this->assertEquals(['Ginerva'],$relations);
+        $this->assertEquals('Ginerva',$relations);
 
     }
     

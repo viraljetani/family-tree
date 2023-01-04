@@ -30,4 +30,16 @@ Database for Tests is called 'testing' where all the test operations are execute
 # Test Coverage
 > sail test --coverage  (xDebug is already enabled in .env for this feature to work)
 
-Current code coverage for the test suit is *40.5%* (ideally ~75-80%)
+Current code coverage for the test suit is *73.1%* (ideally ~75-80%)
+
+
+# Input file & output
+> Please add the inputfile.txt into storage/app directory (sending in email).
+
+I have added a console command to process this file and give an output on console. 
+
+> sail artisan FamilyTree:run 
+
+
+# Notes
+There can be some refactoring and additional functionaly added to make the code more robust. I have tried to just cover the basics here.

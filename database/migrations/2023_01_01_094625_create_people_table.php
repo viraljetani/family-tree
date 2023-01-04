@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('people', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('gender',['male','female'])->default('male');
+            $table->enum('gender',['Male','Female'])->default('Male');
             $table->foreignId('father_id')->nullable()->constrained()->refrences('id')->on('people');
             $table->foreignId('mother_id')->nullable()->constrained()->refrences('id')->on('people');
             $table->timestamps();

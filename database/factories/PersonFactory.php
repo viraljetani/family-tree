@@ -21,7 +21,7 @@ class PersonFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'gender' => 'male',
+            'gender' => 'Male',
         ];
     }
 }

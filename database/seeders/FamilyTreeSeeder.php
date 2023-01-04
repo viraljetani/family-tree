@@ -26,7 +26,7 @@ class FamilyTreeSeeder extends Seeder
 
         $margret = Person::factory()->create([
             'name' => 'Queen Margret', 
-            'gender' => 'female',
+            'gender' => 'Female',
             'father_id' => null, 
             'mother_id' => null,
             'spouse_id' => $arthur->id,
@@ -36,17 +36,17 @@ class FamilyTreeSeeder extends Seeder
         
         //bill & flora
 
-        //$bill = Person::addPerson($margret->name,'Bill','male',$arthur);
+        //$bill = Person::addPerson($margret->name,'Bill','Male',$arthur);
         $bill = Person::factory()->create([
             'name' => 'Bill', 
-            'gender' => 'male',
+            'gender' => 'Male',
             'father_id' => $arthur->id, 
             'mother_id' => $margret->id
         ]);
 
         $flora = Person::factory()->create([
             'name' => 'Flora', 
-            'gender' => 'female',
+            'gender' => 'Female',
             'father_id' => null, 
             'mother_id' => null,
             'spouse_id' => $bill->id
@@ -56,14 +56,14 @@ class FamilyTreeSeeder extends Seeder
             //Victoire & Ted
             $victoire = Person::factory()->create([
                 'name' => 'Victoire', 
-                'gender' => 'female',
+                'gender' => 'Female',
                 'father_id' => $bill->id, 
                 'mother_id' => $flora->id
             ]);
 
             $ted = Person::factory()->create([
                 'name' => 'Ted', 
-                'gender' => 'male',
+                'gender' => 'Male',
                 'father_id' => null, 
                 'mother_id' => null,
                 'spouse_id' => $victoire->id
@@ -71,28 +71,28 @@ class FamilyTreeSeeder extends Seeder
             $victoire->update(['spouse_id' => $ted->id]);
 
                 //Remus
-                Person::addPerson($victoire->name,'Remus','male',$ted);
+                Person::addPerson($victoire->name,'Remus','Male',$ted);
 
             //Dominique
-            Person::addPerson($flora->name,'Dominique','female',$bill);
+            Person::addPerson($flora->name,'Dominique','Female',$bill);
 
             //Louis
-            Person::addPerson($flora->name,'Louis','male',$bill);
+            Person::addPerson($flora->name,'Louis','Male',$bill);
 
         //Charlie
-        Person::addPerson($margret->name,'Charlie','male',$arthur);
+        Person::addPerson($margret->name,'Charlie','Male',$arthur);
 
         //Percy & Audrey
         $percy = Person::factory()->create([
             'name' => 'Percy', 
-            'gender' => 'male',
+            'gender' => 'Male',
             'father_id' => $arthur->id, 
             'mother_id' => $margret->id
         ]);
 
         $audrey = Person::factory()->create([
             'name' => 'Audrey', 
-            'gender' => 'female',
+            'gender' => 'Female',
             'father_id' => null, 
             'mother_id' => null,
             'spouse_id' => $percy->id
@@ -100,21 +100,21 @@ class FamilyTreeSeeder extends Seeder
         $percy->update(['spouse_id' => $audrey->id]);
             
             //Molly
-            Person::addPerson($audrey->name,'Molly','female',$percy);
+            Person::addPerson($audrey->name,'Molly','Female',$percy);
             //Lucy
-            Person::addPerson($audrey->name,'Lucy','female',$percy);
+            Person::addPerson($audrey->name,'Lucy','Female',$percy);
 
         //Ronald & Helen
         $ronald = Person::factory()->create([
             'name' => 'Ronald', 
-            'gender' => 'male',
+            'gender' => 'Male',
             'father_id' => $arthur->id, 
             'mother_id' => $margret->id
         ]);
 
         $helen = Person::factory()->create([
             'name' => 'Helen', 
-            'gender' => 'female',
+            'gender' => 'Female',
             'father_id' => null, 
             'mother_id' => null,
             'spouse_id' => $ronald->id
@@ -124,7 +124,7 @@ class FamilyTreeSeeder extends Seeder
             //Rose & Malfoy
             $rose = Person::factory()->create([
                 'name' => 'Rose', 
-                'gender' => 'female',
+                'gender' => 'Female',
                 'father_id' => $ronald->id, 
                 'mother_id' => $helen->id,
                 'spouse_id' => null,
@@ -132,7 +132,7 @@ class FamilyTreeSeeder extends Seeder
 
             $malfoy = Person::factory()->create([
                 'name' => 'Malfoy', 
-                'gender' => 'male',
+                'gender' => 'Male',
                 'father_id' => null, 
                 'mother_id' => null,
                 'spouse_id' => $rose->id
@@ -140,23 +140,23 @@ class FamilyTreeSeeder extends Seeder
             $rose->update(['spouse_id' => $malfoy->id]);
                 
                 //Draco
-                Person::addPerson($rose->name,'Draco','male',$malfoy);
+                Person::addPerson($rose->name,'Draco','Male',$malfoy);
                 //Aster
-                Person::addPerson($rose->name,'Aster','female',$malfoy);
+                Person::addPerson($rose->name,'Aster','Female',$malfoy);
             //Hugo
-            Person::addPerson($helen->name,'Hugo','male',$ronald);
+            Person::addPerson($helen->name,'Hugo','Male',$ronald);
 
         //Ginerva & Harry
         $ginerva = Person::factory()->create([
             'name' => 'Ginerva', 
-            'gender' => 'female',
+            'gender' => 'Female',
             'father_id' => $arthur->id, 
             'mother_id' => $margret->id
         ]);
 
         $harry = Person::factory()->create([
             'name' => 'Harry', 
-            'gender' => 'male',
+            'gender' => 'Male',
             'father_id' => null, 
             'mother_id' => null,
             'spouse_id' => $ginerva->id
@@ -166,7 +166,7 @@ class FamilyTreeSeeder extends Seeder
             //James & Darcy
             $james = Person::factory()->create([
                 'name' => 'James', 
-                'gender' => 'male',
+                'gender' => 'Male',
                 'father_id' => $harry->id, 
                 'mother_id' => $ginerva->id,
                 'spouse_id' => null
@@ -174,7 +174,7 @@ class FamilyTreeSeeder extends Seeder
 
             $darcy = Person::factory()->create([
                 'name' => 'Darcy', 
-                'gender' => 'female',
+                'gender' => 'Female',
                 'father_id' => null, 
                 'mother_id' => null,
                 'spouse_id' => $james->id
@@ -182,13 +182,13 @@ class FamilyTreeSeeder extends Seeder
             $james->update(['spouse_id' => $darcy->id]);
 
                 //William
-                Person::addPerson($darcy->name,'William','male',$james);
+                Person::addPerson($darcy->name,'William','Male',$james);
 
         //Albus & Alice
         
         $albus = Person::factory()->create([
             'name' => 'Albus', 
-            'gender' => 'male',
+            'gender' => 'Male',
             'father_id' => $harry->id, 
             'mother_id' => $ginerva->id,
             'spouse_id' => null
@@ -196,7 +196,7 @@ class FamilyTreeSeeder extends Seeder
 
         $alice = Person::factory()->create([
             'name' => 'Alice', 
-            'gender' => 'female',
+            'gender' => 'Female',
             'father_id' => null, 
             'mother_id' => null,
             'spouse_id' => $albus->id
@@ -204,13 +204,13 @@ class FamilyTreeSeeder extends Seeder
         $albus->update(['spouse_id' => $alice->id]);
             
             //Ron
-            Person::addPerson($alice->name,'Ron','male',$albus);
+            Person::addPerson($alice->name,'Ron','Male',$albus);
             
             //Ginny
-            Person::addPerson($alice->name,'Ginny','female',$albus);
+            Person::addPerson($alice->name,'Ginny','Female',$albus);
         
         //Lily
-        Person::addPerson($ginerva->name,'Lily','female',$harry);
+        Person::addPerson($ginerva->name,'Lily','Female',$harry);
         
     }
 }
