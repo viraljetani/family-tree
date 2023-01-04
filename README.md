@@ -30,7 +30,7 @@ Database for Tests is called 'testing' where all the test operations are execute
 # Test Coverage
 > sail test --coverage  (xDebug is already enabled in .env for this feature to work)
 
-Current code coverage for the test suit is *73.1%* (ideally ~75-80%)
+Current code coverage for the test suit is *73.1%* 
 
 
 # Input file & output
