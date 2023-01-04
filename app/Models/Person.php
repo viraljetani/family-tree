@@ -69,7 +69,16 @@ class Person extends Model
     {
         return $this->belongsTo(Spouse::class,'spouse_id','id');
     }
-
+    
+    /**
+     * addPerson
+     *
+     * @param  mixed $mother
+     * @param  mixed $person
+     * @param  mixed $gender
+     * @param  mixed $father
+     * @return void
+     */
     public static function addPerson($mother, $person, $gender, Person $father = null)
     {
         $mother = Person::where('name',$mother)->first() ?? null;
@@ -88,7 +97,15 @@ class Person extends Model
             return 'PERSON_NOT_FOUND';
         }
     }
-
+    
+    /**
+     * addSpouse
+     *
+     * @param  mixed $partner
+     * @param  mixed $person
+     * @param  mixed $gender
+     * @return void
+     */
     public function addSpouse($partner, $person, $gender)
     {
         $partner = Person::where('name',$partner)->first() ?? null;
@@ -106,7 +123,13 @@ class Person extends Model
         }
 
     }
-
+    
+    /**
+     * getSiblings
+     *
+     * @param  mixed $person
+     * @return void
+     */
     public function getSiblings(Person $person)
     {
         // Find a parent of the person (mother)
@@ -114,7 +137,14 @@ class Person extends Model
         // if more than 1 then has siblings 
         // get all children of that parent except the Person 
     }
-
+    
+    /**
+     * getRelationship
+     *
+     * @param  mixed $personName
+     * @param  mixed $relation
+     * @return void
+     */
     public function getRelationship($personName, $relation)
     {
         $person = Person::where('name',$personName)->first() ?? null;
@@ -130,9 +160,6 @@ class Person extends Model
         }
 
     }
-
-
-
     
     /**
      * getRelationship

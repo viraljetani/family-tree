@@ -26,7 +26,12 @@ class PersonTest extends TestCase
             'name' => 'Queen Margret',
         ]);
     }
-
+    
+    /**
+     * test_can_add_a_person
+     *
+     * @return void
+     */
     public function test_can_add_a_person()
     {
         $this->withoutExceptionHandling();
@@ -44,7 +49,12 @@ class PersonTest extends TestCase
         ]);
 
     }
-
+    
+    /**
+     * test_cannot_add_a_person_if_gender_incorrect
+     *
+     * @return void
+     */
     public function test_cannot_add_a_person_if_gender_incorrect()
     {
         $this->withoutExceptionHandling();
@@ -62,7 +72,12 @@ class PersonTest extends TestCase
         ]);
 
     }
-
+    
+    /**
+     * test_can_add_spouse_and_partner
+     *
+     * @return void
+     */
     public function test_can_add_spouse_and_partner()
     {
         $this->withoutExceptionHandling();
@@ -87,7 +102,12 @@ class PersonTest extends TestCase
         ]);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_son
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_son()
     {
         $person = new Person();
@@ -99,7 +119,12 @@ class PersonTest extends TestCase
         $this->assertEquals("James Albus",$relations);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_daughter
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_daughter()
     {
         $person = new Person();
@@ -111,7 +136,12 @@ class PersonTest extends TestCase
         $this->assertEquals("Lily",$relations);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_siblings
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_siblings()
     {
         $person = new Person();
@@ -123,7 +153,12 @@ class PersonTest extends TestCase
         $this->assertEquals("Dominique Louis",$relations);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_maternal_aunt
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_maternal_aunt()
     {
         $mother = 'Helen';
@@ -139,7 +174,12 @@ class PersonTest extends TestCase
         $this->assertEquals('Belrose',$relations);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_paternal_aunt
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_paternal_aunt()
     {
 
@@ -149,7 +189,12 @@ class PersonTest extends TestCase
         $this->assertEquals('Ginerva',$relations);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_maternal_uncle
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_maternal_uncle()
     {
 
@@ -159,7 +204,12 @@ class PersonTest extends TestCase
         $this->assertEquals('Louis',$relations);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_paternal_uncle
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_paternal_uncle()
     {
 
@@ -169,7 +219,12 @@ class PersonTest extends TestCase
         $this->assertEquals('Charlie Percy Ronald',$relations);
 
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_sister_in_law
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_sister_in_law()
     {
         $person = new Person();
@@ -183,10 +238,13 @@ class PersonTest extends TestCase
         $relations = $person->getRelationship('Helen','Sister-In-Law');
         $this->assertEquals(['Ginerva'],$relations);
 
-
-
     }
-
+    
+    /**
+     * test_it_can_search_relation_for_brother_in_law
+     *
+     * @return void
+     */
     public function test_it_can_search_relation_for_brother_in_law()
     {
         $person = new Person();
