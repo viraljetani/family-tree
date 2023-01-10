@@ -7,8 +7,17 @@ I have used Laravel Sail (Docker) while working on this code. Coding has been do
 
 - Clone the repo in your local.
 - Paste the .env file from the email into the project's root directory.
+- Install the composer dependencies:
+```sh
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
 - On the Terminal inside the project directory run the following: 
-> sail up -d  [Make sure docker is installed and running]
+> sail up -d  [Make sure docker is installed and running] or `./vendor/bin/sail up -d` (if sail is not set as an alias)
 
 ###Seeding
 
