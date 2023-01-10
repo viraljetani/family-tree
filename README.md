@@ -3,7 +3,7 @@
 
 I have used Laravel Sail (Docker) while working on this code. Coding has been done with TDD of the methods implemented for adding person or spouse. 
 
-###Setup (for Mac or Windows):
+## Setup (for Mac or Windows):
 
 - Clone the repo in your local.
 - Paste the .env file from the email into the project's root directory.
@@ -19,7 +19,7 @@ docker run --rm \
 - On the Terminal inside the project directory run the following: 
 > sail up -d  [Make sure docker is installed and running] or `./vendor/bin/sail up -d` (if sail is not set as an alias)
 
-###Seeding
+## Seeding
 
 Family tree data of King Arthur & Queen Margret has been added to a seed file (FamilyTreeSeeder) which will be used to initialize the basic family tree to work with.
 
